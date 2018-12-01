@@ -1,25 +1,30 @@
 package tec.clase.dagorik.com.proyecto.models;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by Dagorik on 11/24/18. ${SYSTEM}
  */
 public class Notifications {
 
-    private int id;
+    @SerializedName("id_report")
+    private String id;
+    @SerializedName("name")
     private String notification;
+    @SerializedName("date")
     private String description;
 
-    public Notifications(int id, String notification, String description) {
+    public Notifications(String id, String notification, String description) {
         this.id = id;
         this.notification = notification;
         this.description = description;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

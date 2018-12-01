@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +13,15 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 import tec.clase.dagorik.com.proyecto.R;
 import tec.clase.dagorik.com.proyecto.adapters.RecyclerViewSalesAdapter;
+import tec.clase.dagorik.com.proyecto.data.DataRepository;
+import tec.clase.dagorik.com.proyecto.models.KindCompany;
 import tec.clase.dagorik.com.proyecto.models.Sales;
 
 /**
@@ -45,12 +53,42 @@ public class SalesFragment extends Fragment {
         salesList.add(new Sales(8,"Ejemplo 8", "https://http2.mlstatic.com/corrida-financiera-para-proyecto-de-taller-mecanico-autos-D_NQ_NP_668011-MLM20459011910_102015-F.jpg"));
         salesList.add(new Sales(9,"Ejemplo 9", "https://www.villapalmarcancun.com/cms/resources/davino-restaurant-villa-palmar-cancun-slide3-w640h350.jpg"));
 
+
+
         recyclerView = (RecyclerView) view.findViewById(R.id.rv_sales);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        adapter = new RecyclerViewSalesAdapter(salesList);
-        recyclerView.setAdapter(adapter);
 
+        loadAllKindCompanies();
         return view;
+    }
+
+    private void setUpRecyclerView(List<KindCompany> kindCompanyList){
+        adapter = new RecyclerViewSalesAdapter(kindCompanyList);
+        recyclerView.setAdapter(adapter);
+    }
+
+    private void loadAllKindCompanies(){
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://backpoza.herokuapp.com/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        DataRepository client = retrofit.create(DataRepository.class);
+
+        client.getAllKindCompanies().enqueue(new Callback<List<KindCompany>>() {
+            @Override
+            public void onResponse(Call<List<KindCompany>> call, Response<List<KindCompany>> response) {
+                List<KindCompany> kindCompanyList = response.body();
+                setUpRecyclerView(kindCompanyList);
+            }
+
+            @Override
+            public void onFailure(Call<List<KindCompany>> call, Throwable t) {
+                Log.e("Error",t.getMessage());
+            }
+        });
+
     }
 
 }

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ReportActivity">
+
+
+    <EditText
+        android:id="@+id/et_report_create"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:hint="Descripción del reporte"
+        android:padding="6dp" />
+
+
+    <com.agik.AGIKSwipeButton.View.Swipe_Button_View
+        android:id="@+id/btn_swipe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        app:sb_swipe_animate_text="true"
+        app:sb_swipe_text="Crear reporte" />
+
+
+</LinearLayout>
